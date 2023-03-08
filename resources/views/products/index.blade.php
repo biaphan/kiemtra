@@ -1,61 +1,62 @@
 @extends('layout')
-
-@section('title', 'List Product')
-
 @section('content')
-<div class="bg0 m-t-23 p-b-140">
-    <div class="container">
+@if(Session::has('message'))
+<h3>{{ Session::get('message') }}</h3>
+@endif
+<div class="row">
+   
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Basic Table</h4>
+                <a class="badge badge-warning btn btn-warning" href="{{ route('products.create') }}"> Create New</a>
+                <p class="card-description"> Add class <code>.table</code> </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                       
+                            <th>Desc</th>
+                            <th>Price</th>
+                            <TH>Import price </TH>
+                            <TH>unit </TH>
+                            <TH>quantity</TH>
+                            <TH>Category</TH>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                   
+                        @foreach($productList as $product)
+                        <tr>
+                            <td>{{ $product->id }}</td>
+                            <td>{{ $product->name }}</td>
+                            
+                            <td>{{ $product->desc }}</td>
+                            <td>{{ $product->price }}</td>
+                            <td>{{ $product->import_price }}</td>
+                            <td>{{ $product->unit }}</td>
+                            <td>{{ $product->quantit }}</td>
+                            <td>{{ $product->category_id }}</td>
+                            <td>
+                                <a class="badge badge-danger" href="{{ route('products.edit',$product->id) }}">Pending</a>
+                            </td>
 
-        <div class="row isotope-grid">
-            @foreach ($productList as $product)
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-                <!-- Block2 -->
-                <div class="block2">
-                    <div class="block2-pic hov-img0">
-                        <img src="{{url($product->img)}}" alt="IMG-PRODUCT">
+                            <td>
+                                <form action="{{ route('products.destroy',$product->id) }}" method="post">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
 
-                        <a href="" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                            Quick View
-                        </a>
-                    </div>
-
-                    <div class="block2-txt flex-w flex-t p-t-14">
-                        <div class="block2-txt-child1 flex-col-l ">
-                            <a href="{{route('products.show', $product->id)}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                               {{$product ->name}}
-                            </a>
-
-                            <span class="stext-105 cl3">
-                                {{$product->price}}
-                            </span>
-                        </div>
-
-                        <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-                                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
-
-            @endforeach
-           
-           
-
-            
-        </div>
-
-        <!-- Load more -->
-        <div class="flex-c-m flex-w w-full p-t-45">
-            <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-                Load More
-            </a>
         </div>
     </div>
 </div>
-    
-
-
 @endsection
